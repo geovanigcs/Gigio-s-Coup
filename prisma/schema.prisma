@@ -1,0 +1,53 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id        String   @id @default(cuid())
+  username  String   @unique
+  nick      String
+  email     String   @unique
+  password  String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  
+  gamesAsPlayer GameHistory[] @relation("PlayerGames")
+  friendsInitiated Friend[] @relation("FriendInitiator")
+  friendsReceived  Friend[] @relation("FriendReceiver")
+}
+
+model GameHistory {
+  id        String   @id @default(cuid())
+  playerId  String
+  result    String   // "win" or "loss"
+  mode      String   // "offline" or "online"
+  players   Int      // número de jogadores
+  duration  Int?     // duração em segundos
+  createdAt DateTime @default(now())
+  
+  player User @relation("PlayerGames", fields: [playerId], references: [id])
+  
+  @@index([playerId])
+}
+
+model Friend {
+  id         String   @id @default(cuid())
+  userId     String
+  friendId   String
+  status     String   @default("pending") // "pending", "accepted", "rejected"
+  createdAt  DateTime @default(now())
+  
+  user   User @relation("FriendInitiator", fields: [userId], references: [id])
+  friend User @relation("FriendReceiver", fields: [friendId], references: [id])
+  
+  @@unique([userId, friendId])
+  @@index([userId])
+  @@index([friendId])
+}
