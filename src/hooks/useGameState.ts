@@ -82,6 +82,10 @@ export const useGameState = () => {
     });
   }, []);
 
+  const endTurn = useCallback(() => {
+    nextTurn();
+  }, [nextTurn]);
+
   const performAction = useCallback((action: ActionType, targetId?: string) => {
     setGameState(prev => {
       if (!prev) return prev;
@@ -89,14 +93,12 @@ export const useGameState = () => {
       const newPlayers = [...prev.players];
       const playerIndex = prev.currentPlayerIndex;
       let newLog = [...prev.log];
-      let newPhase: GamePhase = 'action';
-      let newDeck = [...prev.deck];
 
       switch (action) {
         case 'income':
           newPlayers[playerIndex] = { ...currentPlayer, coins: currentPlayer.coins + 1 };
           newLog.push(`💰 ${currentPlayer.name} pegou 1 moeda (Renda)`);
-          return { ...prev, players: newPlayers, log: newLog, phase: 'action', currentAction: null };
+          return { ...prev, players: newPlayers, log: newLog };
 
         case 'foreign_aid':
           newLog.push(`💰💰 ${currentPlayer.name} tentou pegar 2 moedas (Ajuda Externa)`);
@@ -209,7 +211,6 @@ export const useGameState = () => {
       const playerIndex = newPlayers.findIndex(p => p.id === action.playerId);
       const player = newPlayers[playerIndex];
       let newLog = [...prev.log];
-      let newDeck = [...prev.deck];
 
       switch (action.type) {
         case 'foreign_aid':
@@ -230,21 +231,31 @@ export const useGameState = () => {
           newPlayers[playerIndex] = { ...player, coins: player.coins + stolenAmount };
           newLog.push(`✅ ${player.name} roubou ${stolenAmount} moedas de ${target.name}`);
           break;
+
+        case 'exchange':
+          newLog.push(`✅ ${player.name} trocou cartas com o deck`);
+          break;
+
+        case 'assassinate':
+          newLog.push(`✅ O assassinato foi bem-sucedido!`);
+          return {
+            ...prev,
+            players: newPlayers,
+            log: newLog,
+            phase: 'lose_influence',
+          };
       }
 
       return {
         ...prev,
         players: newPlayers,
-        deck: newDeck,
         log: newLog,
         phase: 'action',
         currentAction: null,
         pendingBlock: null,
       };
     });
-
-    setTimeout(() => nextTurn(), 500);
-  }, [nextTurn]);
+  }, []);
 
   const loseInfluence = useCallback((playerId: string, cardIndex: number) => {
     setGameState(prev => {
@@ -281,9 +292,7 @@ export const useGameState = () => {
         currentAction: null,
       };
     });
-
-    setTimeout(() => nextTurn(), 500);
-  }, [nextTurn]);
+  }, []);
 
   const challenge = useCallback((challengerId: string) => {
     setGameState(prev => {
@@ -303,7 +312,6 @@ export const useGameState = () => {
       const newLog = [...prev.log, `🔍 ${challenger.name} contestou ${actor.name}!`];
 
       if (hasCharacter) {
-        // Actor has the character - challenger loses influence
         newLog.push(`😬 ${actor.name} realmente tinha ${CHARACTERS[action.requiredCharacter].namePortuguese}!`);
         return {
           ...prev,
@@ -315,7 +323,6 @@ export const useGameState = () => {
           },
         };
       } else {
-        // Actor was bluffing - actor loses influence
         newLog.push(`🎭 ${actor.name} estava blefando!`);
         return {
           ...prev,
@@ -348,7 +355,7 @@ export const useGameState = () => {
       return prev;
     });
 
-    setTimeout(() => resolveAction(), 500);
+    setTimeout(() => resolveAction(), 300);
   }, [resolveAction]);
 
   const blockAction = useCallback((blockerId: string, character: CharacterType) => {
@@ -384,9 +391,7 @@ export const useGameState = () => {
         pendingBlock: null,
       };
     });
-    
-    setTimeout(() => nextTurn(), 500);
-  }, [nextTurn]);
+  }, []);
 
   const skipBlock = useCallback(() => {
     resolveAction();
@@ -409,6 +414,7 @@ export const useGameState = () => {
     acceptBlock,
     skipBlock,
     nextTurn,
+    endTurn,
     resetGame,
   };
 };

@@ -13,6 +13,7 @@ const Index = () => {
     skipBlock,
     acceptBlock,
     loseInfluence,
+    endTurn,
     resetGame,
   } = useGameState();
 
@@ -30,6 +31,7 @@ const Index = () => {
       onSkipBlock={skipBlock}
       onAcceptBlock={acceptBlock}
       onLoseInfluence={loseInfluence}
+      onEndTurn={endTurn}
       onReset={resetGame}
     />
   );
