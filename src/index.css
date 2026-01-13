@@ -2,95 +2,57 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
-All colors MUST be HSL.
-*/
+/* Gigio's Minigame - Dark Royal Theme */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Dark royal theme - always dark for this game */
+    --background: 240 20% 6%;
+    --foreground: 45 90% 90%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    --card: 240 15% 10%;
+    --card-foreground: 45 90% 90%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover: 240 15% 12%;
+    --popover-foreground: 45 90% 90%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --primary: 45 90% 55%;
+    --primary-foreground: 240 20% 6%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --secondary: 270 40% 25%;
+    --secondary-foreground: 45 90% 90%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --muted: 240 10% 15%;
+    --muted-foreground: 240 10% 60%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    --accent: 270 50% 35%;
+    --accent-foreground: 45 90% 90%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --destructive: 0 70% 45%;
+    --destructive-foreground: 45 90% 95%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --border: 240 15% 20%;
+    --input: 240 15% 15%;
+    --ring: 45 90% 55%;
 
-    --radius: 0.5rem;
+    --radius: 0.75rem;
 
-    --sidebar-background: 0 0% 98%;
+    /* Game specific colors */
+    --game-gold: 45 90% 55%;
+    --game-gold-light: 45 80% 70%;
+    --game-dark: 240 20% 8%;
+    --game-purple: 270 50% 35%;
+    --game-blood: 0 70% 40%;
+    --game-royal: 220 60% 25%;
 
-    --sidebar-foreground: 240 5.3% 26.1%;
-
-    --sidebar-primary: 240 5.9% 10%;
-
-    --sidebar-primary-foreground: 0 0% 98%;
-
-    --sidebar-accent: 240 4.8% 95.9%;
-
-    --sidebar-accent-foreground: 240 5.9% 10%;
-
-    --sidebar-border: 220 13% 91%;
-
-    --sidebar-ring: 217.2 91.2% 59.8%;
-  }
-
-  .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
-
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
-
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
-
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
-
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
-
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
-
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
-
-    --destructive: 0 62.8% 30.6%;
-    --destructive-foreground: 210 40% 98%;
-
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    --sidebar-background: 240 15% 8%;
+    --sidebar-foreground: 45 90% 90%;
+    --sidebar-primary: 45 90% 55%;
+    --sidebar-primary-foreground: 240 20% 6%;
+    --sidebar-accent: 270 40% 25%;
+    --sidebar-accent-foreground: 45 90% 90%;
+    --sidebar-border: 240 15% 20%;
+    --sidebar-ring: 45 90% 55%;
   }
 }
 
@@ -100,6 +62,107 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    font-family: 'Inter', system-ui, sans-serif;
+  }
+}
+
+@layer components {
+  /* Game Cards */
+  .game-card {
+    @apply bg-gradient-to-br from-card to-game-dark border border-border;
+    box-shadow: 
+      0 4px 20px -5px hsl(var(--game-gold) / 0.1),
+      inset 0 1px 0 hsl(var(--game-gold) / 0.1);
+  }
+
+  .card-back {
+    background-image: 
+      repeating-linear-gradient(
+        45deg,
+        transparent,
+        transparent 10px,
+        hsl(var(--game-gold) / 0.05) 10px,
+        hsl(var(--game-gold) / 0.05) 20px
+      );
+  }
+
+  /* Action Panels */
+  .action-panel {
+    @apply bg-gradient-to-br from-card via-card to-game-purple/20 border border-game-gold/30;
+  }
+
+  .challenge-panel {
+    @apply bg-gradient-to-br from-destructive/10 to-card border border-destructive/50;
+  }
+
+  .block-panel {
+    @apply bg-gradient-to-br from-game-royal/30 to-card border border-game-royal/50;
+  }
+
+  .lose-influence-panel {
+    @apply bg-gradient-to-br from-game-blood/20 to-card border border-game-blood/50;
+  }
+
+  .game-log {
+    @apply bg-card/50 border border-border/50;
+  }
+
+  /* Buttons */
+  .btn-gold {
+    @apply bg-gradient-to-r from-primary to-game-gold-light text-primary-foreground font-bold;
+    @apply hover:from-game-gold-light hover:to-primary transition-all duration-300;
+    @apply shadow-lg shadow-primary/30;
+  }
+
+  /* Character Actions */
+  .action-duke {
+    @apply bg-gradient-to-r from-purple-700 to-purple-900 hover:from-purple-600 hover:to-purple-800;
+    @apply text-white border-none;
+  }
+
+  .action-assassin {
+    @apply bg-gradient-to-r from-red-800 to-red-950 hover:from-red-700 hover:to-red-900;
+    @apply text-white border-none;
+  }
+
+  .action-captain {
+    @apply bg-gradient-to-r from-blue-700 to-blue-900 hover:from-blue-600 hover:to-blue-800;
+    @apply text-white border-none;
+  }
+
+  .action-ambassador {
+    @apply bg-gradient-to-r from-emerald-700 to-emerald-900 hover:from-emerald-600 hover:to-emerald-800;
+    @apply text-white border-none;
+  }
+}
+
+@layer utilities {
+  .animate-pulse-glow {
+    animation: pulse-glow 2s ease-in-out infinite;
+  }
+
+  .animate-fade-in {
+    animation: fade-in 0.3s ease-out;
+  }
+
+  @keyframes pulse-glow {
+    0%, 100% {
+      filter: drop-shadow(0 0 5px hsl(var(--game-gold) / 0.5));
+    }
+    50% {
+      filter: drop-shadow(0 0 20px hsl(var(--game-gold) / 0.8));
+    }
+  }
+
+  @keyframes fade-in {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
   }
 }

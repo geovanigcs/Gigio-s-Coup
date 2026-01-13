@@ -57,6 +57,13 @@ export default {
           border: "hsl(var(--sidebar-border))",
           ring: "hsl(var(--sidebar-ring))",
         },
+        // Game specific colors
+        "game-gold": "hsl(var(--game-gold))",
+        "game-gold-light": "hsl(var(--game-gold-light))",
+        "game-dark": "hsl(var(--game-dark))",
+        "game-purple": "hsl(var(--game-purple))",
+        "game-blood": "hsl(var(--game-blood))",
+        "game-royal": "hsl(var(--game-royal))",
       },
       borderRadius: {
         lg: "var(--radius)",
