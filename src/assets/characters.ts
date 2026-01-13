@@ -1,4 +1,11 @@
 // Character definitions for the game
+import dukeImg from '@/assets/characters/duke.png';
+import assassinImg from '@/assets/characters/assassin.png';
+import contessaImg from '@/assets/characters/contessa.png';
+import captainImg from '@/assets/characters/captain.png';
+import ambassadorImg from '@/assets/characters/ambassador.png';
+import cardBackImg from '@/assets/characters/card-back.png';
+
 export type CharacterType = 'duke' | 'assassin' | 'contessa' | 'captain' | 'ambassador';
 
 export interface Character {
@@ -7,9 +14,12 @@ export interface Character {
   namePortuguese: string;
   color: string;
   emoji: string;
+  image: string;
   actions: string[];
   blocks: string[];
 }
+
+export const CARD_BACK_IMAGE = cardBackImg;
 
 export const CHARACTERS: Record<CharacterType, Character> = {
   duke: {
@@ -18,6 +28,7 @@ export const CHARACTERS: Record<CharacterType, Character> = {
     namePortuguese: 'Duque',
     color: 'hsl(270, 70%, 50%)',
     emoji: '👑',
+    image: dukeImg,
     actions: ['Pegar 3 moedas (Taxar)'],
     blocks: ['Ajuda Externa'],
   },
@@ -27,6 +38,7 @@ export const CHARACTERS: Record<CharacterType, Character> = {
     namePortuguese: 'Assassino',
     color: 'hsl(0, 70%, 40%)',
     emoji: '🗡️',
+    image: assassinImg,
     actions: ['Pagar 3 moedas para assassinar'],
     blocks: [],
   },
@@ -36,6 +48,7 @@ export const CHARACTERS: Record<CharacterType, Character> = {
     namePortuguese: 'Condessa',
     color: 'hsl(330, 70%, 50%)',
     emoji: '👸',
+    image: contessaImg,
     actions: [],
     blocks: ['Assassinato'],
   },
@@ -45,6 +58,7 @@ export const CHARACTERS: Record<CharacterType, Character> = {
     namePortuguese: 'Capitão',
     color: 'hsl(200, 70%, 45%)',
     emoji: '⚓',
+    image: captainImg,
     actions: ['Roubar 2 moedas de outro jogador'],
     blocks: ['Roubo'],
   },
@@ -54,6 +68,7 @@ export const CHARACTERS: Record<CharacterType, Character> = {
     namePortuguese: 'Embaixador',
     color: 'hsl(150, 60%, 40%)',
     emoji: '🎭',
+    image: ambassadorImg,
     actions: ['Trocar cartas com o Deck da Corte'],
     blocks: ['Roubo'],
   },
