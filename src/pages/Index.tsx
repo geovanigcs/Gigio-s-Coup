@@ -1,13 +1,37 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { SetupScreen } from '@/components/game/SetupScreen';
+import { GameBoard } from '@/components/game/GameBoard';
+import { useGameState } from '@/hooks/useGameState';
 
 const Index = () => {
+  const {
+    gameState,
+    startGame,
+    performAction,
+    challenge,
+    skipChallenge,
+    blockAction,
+    skipBlock,
+    acceptBlock,
+    loseInfluence,
+    resetGame,
+  } = useGameState();
+
+  if (!gameState) {
+    return <SetupScreen onStart={startGame} />;
+  }
+
   return (
-    <div className="flex min-h-screen items-center justify-center bg-background">
-      <div className="text-center">
-        <h1 className="mb-4 text-4xl font-bold">Welcome to Your Blank App</h1>
-        <p className="text-xl text-muted-foreground">Start building your amazing project here!</p>
-      </div>
-    </div>
+    <GameBoard
+      gameState={gameState}
+      onAction={performAction}
+      onChallenge={challenge}
+      onSkipChallenge={skipChallenge}
+      onBlock={blockAction}
+      onSkipBlock={skipBlock}
+      onAcceptBlock={acceptBlock}
+      onLoseInfluence={loseInfluence}
+      onReset={resetGame}
+    />
   );
 };
 
