@@ -6,6 +6,7 @@ import { Plus, Minus, Play, Crown, Swords, Shield, Skull, ArrowLeft } from 'luci
 import { CHARACTERS, CARD_BACK_IMAGE } from '@/assets/characters';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import warrion from '@/assets/images/Warrion.png';
 
 interface SetupScreenProps {
   onStart: (playerNames: string[]) => void;
@@ -88,23 +89,25 @@ export const SetupScreen = ({ onStart }: SetupScreenProps) => {
           animate={{ scale: 1 }}
           transition={{ delay: 0.2, type: "spring" }}
         >
-          <div className="flex justify-center items-center gap-4">
+          <div className="flex justify-center items-center">
             <motion.div
               animate={{ rotateZ: [-5, 5, -5] }}
               transition={{ duration: 2, repeat: Infinity }}
             >
-              <Crown className="w-12 h-12 text-game-gold" />
+              {/* <Crown className="w-12 h-12 text-game-gold" /> */}
+              <motion.div className="flex items-center justify-center">
+            <img src={warrion} alt="" className="w-15 h-[115px]" />            
+          </motion.div>
             </motion.div>
             <motion.div
               animate={{ scale: [1, 1.1, 1] }}
               transition={{ duration: 1.5, repeat: Infinity }}
             >
-              <Swords className="w-10 h-10 text-game-blood" />
             </motion.div>
           </div>
           <motion.h1 
             className="text-6xl font-bold text-game-gold tracking-wider"
-            style={{ fontFamily: "'Uncial Antiqua', cursive" }}
+            style={{ fontFamily: "'Cinzel Decorative', serif" }}
             animate={{ 
               textShadow: [
                 "0 0 20px rgba(212,175,55,0.3)",
@@ -117,11 +120,10 @@ export const SetupScreen = ({ onStart }: SetupScreenProps) => {
             Gigio's Coup
           </motion.h1>
           <p className="text-muted-foreground text-lg">
-            Um jogo de blefe, intriga e traição
+            Não importa a carta que você tem, mas a que eles acreditam que você tem.
           </p>
         </motion.div>
 
-        {/* Character Preview */}
         <motion.div 
           className="flex justify-center gap-3"
           initial={{ opacity: 0 }}
@@ -135,7 +137,7 @@ export const SetupScreen = ({ onStart }: SetupScreenProps) => {
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.5 + index * 0.1 }}
               whileHover={{ scale: 1.1, y: -5 }}
-              className="w-16 h-24 rounded-xl overflow-hidden shadow-lg cursor-pointer ring-2 ring-game-gold/30 hover:ring-game-gold/60 transition-all"
+              className="w-[100px] h-[150px] rounded-xl overflow-hidden shadow-lg cursor-pointer ring-2 ring-game-gold/30 hover:ring-game-gold/60 transition-all"
             >
               <img 
                 src={char.image} 
@@ -146,7 +148,6 @@ export const SetupScreen = ({ onStart }: SetupScreenProps) => {
           ))}
         </motion.div>
 
-        {/* Player Setup */}
         <motion.div 
           className="game-card p-6 rounded-2xl space-y-4"
           initial={{ opacity: 0, y: 20 }}

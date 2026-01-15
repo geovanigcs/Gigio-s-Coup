@@ -2,7 +2,8 @@ import { motion } from 'framer-motion';
 import { Player } from '@/types/game';
 import { Button } from '@/components/ui/button';
 import { CHARACTERS } from '@/assets/characters';
-import { Coins, Shield, Crown, Skull } from 'lucide-react';
+import { Coins, Shield, Skull } from 'lucide-react';
+import warrion from '@/assets/images/Warrion.png';
 
 interface ActionPanelProps {
   currentPlayer: Player;
@@ -53,7 +54,9 @@ export const ActionPanel = ({ currentPlayer, players, onAction, mustCoup }: Acti
       className="action-panel p-6 rounded-2xl space-y-5"
     >
       <h3 className="text-game-gold font-bold text-xl flex items-center gap-2">
-        <Crown className="w-6 h-6" />
+        <motion.div className="flex items-center justify-center gap-4 mb-4">
+            <img src={warrion} alt="" className="w-15 h-[115px]" />            
+          </motion.div>
         Sua Vez, {currentPlayer.name}!
       </h3>
       

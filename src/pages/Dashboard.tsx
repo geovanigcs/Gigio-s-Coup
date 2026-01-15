@@ -3,6 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Crown, Gamepad2, Globe, History, Users, BookOpen, LogOut, User } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/AuthContext';
+import warrion from '@/assets/images/Warrion.png';
 
 const Dashboard = () => {
   const navigate = useNavigate();
@@ -98,10 +99,13 @@ const Dashboard = () => {
             className="flex items-center gap-3 cursor-pointer"
             onClick={() => navigate('/')}
           >
-            <Crown className="w-10 h-10 text-game-gold" />
+            {/* <Crown className="w-10 h-10 text-game-gold" /> */}
+            <motion.div className="flex items-center justify-center gap-4 mb-4">
+            <img src={warrion} alt="" className="w-15 h-[115px]" />            
+          </motion.div>
             <h1 
               className="text-4xl font-bold text-game-gold"
-              style={{ fontFamily: "'Uncial Antiqua', cursive" }}
+              style={{ fontFamily: "'Cinzel Decorative', serif" }}
             >
               Gigio's Coup
             </h1>

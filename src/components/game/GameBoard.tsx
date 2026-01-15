@@ -49,7 +49,6 @@ export const GameBoard = ({
     }
   };
 
-  // Find the player who needs to lose influence
   const getLoseInfluencePlayer = (): Player | null => {
     if (gameState.phase !== 'lose_influence' || !gameState.currentAction) return null;
     const targetId = gameState.currentAction.targetId;
@@ -58,7 +57,6 @@ export const GameBoard = ({
 
   const loseInfluencePlayer = getLoseInfluencePlayer();
 
-  // Game Over Screen
   if (gameState.phase === 'game_over' && gameState.winner) {
     return (
       <div className="min-h-screen bg-background flex items-center justify-center p-4">
@@ -74,7 +72,7 @@ export const GameBoard = ({
             }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            <Crown className="w-24 h-24 text-game-gold mx-auto" />
+            {/* <Crown className="w-24 h-24 text-game-gold mx-auto" /> */}
           </motion.div>
           
           <div>
@@ -135,7 +133,6 @@ export const GameBoard = ({
   return (
     <div className="min-h-screen bg-background p-4">
         <div className="max-w-6xl mx-auto space-y-6">
-          {/* Header */}
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -151,7 +148,7 @@ export const GameBoard = ({
                 <ArrowLeft className="w-4 h-4 mr-2" />
                 Voltar
               </Button>
-              <h1 className="text-2xl font-bold text-game-gold flex items-center gap-2" style={{ fontFamily: "'Uncial Antiqua', cursive" }}>
+              <h1 className="text-2xl font-bold text-game-gold flex items-center gap-2" style={{ fontFamily: "'Cinzel Decorative', serif" }}>
                 <Crown className="w-7 h-7" />
                 Gigio's Coup
               </h1>
