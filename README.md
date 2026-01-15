@@ -119,7 +119,7 @@ Neste projeto, utilizei princípios de design centrado no usuário, focando em:
 
 ## 📸 Imagens do Projeto
 
-![Tela Inicial](public/images/background.jpeg)
+![Tela de Setup do Jogo](src/assets/images/capture.png)
 
 ## ⚙️ Como Executar o Projeto
 
