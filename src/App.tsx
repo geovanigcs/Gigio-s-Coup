@@ -6,7 +6,6 @@ import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { AuthProvider } from "@/contexts/AuthContext";
 import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Home from "./pages/Home";
-import Login from "./pages/Login";
 import Dashboard from "./pages/Dashboard";
 import GameOffline from "./pages/GameOffline";
 import ForgotPassword from "./pages/ForgotPassword";
@@ -24,7 +23,6 @@ const App = () => (
         <BrowserRouter>
           <Routes>
             <Route path="/" element={<Home />} />
-            <Route path="/login" element={<Login />} />
             <Route path="/forgot-password" element={<ForgotPassword />} />
             <Route path="/reset-password" element={<ResetPassword />} />
             <Route path="/dashboard" element={
@@ -33,7 +31,6 @@ const App = () => (
               </ProtectedRoute>
             } />
             <Route path="/game/offline" element={<GameOffline />} />
-            {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>
