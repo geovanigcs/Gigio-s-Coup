@@ -7,10 +7,11 @@ import { ChallengePanel } from './ChallengePanel';
 import { BlockPanel } from './BlockPanel';
 import { LoseInfluencePanel } from './LoseInfluencePanel';
 import { GameLog } from './GameLog';
-import { TurnTransition } from './TurnTransition';
 import { Button } from '@/components/ui/button';
-import { Crown, RotateCcw, Coins, ArrowRight } from 'lucide-react';
+import { Crown, RotateCcw, Coins, ArrowLeft } from 'lucide-react';
 import { CHARACTERS } from '@/assets/characters';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface GameBoardProps {
   gameState: GameState;
@@ -37,26 +38,15 @@ export const GameBoard = ({
   onReset,
   onEndTurn,
 }: GameBoardProps) => {
-  const [showTransition, setShowTransition] = useState(false);
-  const [pendingNextPlayer, setPendingNextPlayer] = useState<Player | null>(null);
-
   const currentPlayer = gameState.players[gameState.currentPlayerIndex];
   const mustCoup = currentPlayer.coins >= 10;
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
-  const handleEndTurn = () => {
-    // Find next alive player
-    let nextIndex = (gameState.currentPlayerIndex + 1) % gameState.players.length;
-    while (!gameState.players[nextIndex].isAlive) {
-      nextIndex = (nextIndex + 1) % gameState.players.length;
+  const handleBack = () => {
+    if (window.confirm('Deseja sair da partida? O progresso será perdido.')) {
+      navigate(isAuthenticated ? '/dashboard' : '/');
     }
-    setPendingNextPlayer(gameState.players[nextIndex]);
-    setShowTransition(true);
-  };
-
-  const handleTransitionReady = () => {
-    setShowTransition(false);
-    setPendingNextPlayer(null);
-    onEndTurn();
   };
 
   // Find the player who needs to lose influence
@@ -143,17 +133,7 @@ export const GameBoard = ({
   }
 
   return (
-    <>
-      <AnimatePresence>
-        {showTransition && pendingNextPlayer && (
-          <TurnTransition 
-            nextPlayerName={pendingNextPlayer.name} 
-            onReady={handleTransitionReady} 
-          />
-        )}
-      </AnimatePresence>
-
-      <div className="min-h-screen bg-background p-4">
+    <div className="min-h-screen bg-background p-4">
         <div className="max-w-6xl mx-auto space-y-6">
           {/* Header */}
           <motion.div 
@@ -161,10 +141,21 @@ export const GameBoard = ({
             animate={{ opacity: 1, y: 0 }}
             className="flex items-center justify-between"
           >
-            <h1 className="text-2xl font-bold text-game-gold flex items-center gap-2">
-              <Crown className="w-7 h-7" />
-              Gigio's Minigame
-            </h1>
+            <div className="flex items-center gap-4">
+              <Button
+                onClick={handleBack}
+                variant="ghost"
+                size="sm"
+                className="text-game-gold hover:text-game-gold-light"
+              >
+                <ArrowLeft className="w-4 h-4 mr-2" />
+                Voltar
+              </Button>
+              <h1 className="text-2xl font-bold text-game-gold flex items-center gap-2" style={{ fontFamily: "'Uncial Antiqua', cursive" }}>
+                <Crown className="w-7 h-7" />
+                Gigio's Coup
+              </h1>
+            </div>
             <div className="flex items-center gap-4">
               <div className="flex items-center gap-2 text-sm text-muted-foreground bg-card/50 px-3 py-1.5 rounded-full">
                 <Coins className="w-4 h-4 text-game-gold" />
@@ -303,27 +294,9 @@ export const GameBoard = ({
 
             <div className="space-y-4">
               <GameLog log={gameState.log} />
-              
-              {/* End Turn Button - Only show when action phase and not must coup */}
-              {gameState.phase === 'action' && (
-                <motion.div
-                  initial={{ opacity: 0, y: 10 }}
-                  animate={{ opacity: 1, y: 0 }}
-                >
-                  <Button 
-                    onClick={handleEndTurn}
-                    variant="outline" 
-                    className="w-full h-12 border-game-gold/50 text-game-gold hover:bg-game-gold/10"
-                  >
-                    Passar a vez
-                    <ArrowRight className="w-4 h-4 ml-2" />
-                  </Button>
-                </motion.div>
-              )}
             </div>
           </div>
         </div>
       </div>
-    </>
   );
 };

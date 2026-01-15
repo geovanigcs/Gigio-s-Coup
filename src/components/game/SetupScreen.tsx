@@ -2,8 +2,10 @@ import { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { Plus, Minus, Play, Crown, Swords, Shield, Skull } from 'lucide-react';
+import { Plus, Minus, Play, Crown, Swords, Shield, Skull, ArrowLeft } from 'lucide-react';
 import { CHARACTERS, CARD_BACK_IMAGE } from '@/assets/characters';
+import { useNavigate } from 'react-router-dom';
+import { useAuth } from '@/contexts/AuthContext';
 
 interface SetupScreenProps {
   onStart: (playerNames: string[]) => void;
@@ -11,6 +13,8 @@ interface SetupScreenProps {
 
 export const SetupScreen = ({ onStart }: SetupScreenProps) => {
   const [playerNames, setPlayerNames] = useState<string[]>(['Jogador 1', 'Jogador 2']);
+  const navigate = useNavigate();
+  const { isAuthenticated } = useAuth();
 
   const addPlayer = () => {
     if (playerNames.length < 6) {
@@ -31,9 +35,18 @@ export const SetupScreen = ({ onStart }: SetupScreenProps) => {
   };
 
   return (
-    <div className="min-h-screen bg-background flex items-center justify-center p-4 overflow-hidden">
+    <div className="min-h-screen bg-background flex items-center justify-center p-4 overflow-hidden relative">
+      {/* Background Image */}
+      <div className="fixed inset-0 z-0">
+        <div 
+          className="absolute inset-0 bg-cover bg-center bg-no-repeat"
+          style={{ backgroundImage: 'url(/images/background.jpeg)' }}
+        />
+        <div className="absolute inset-0 bg-black/70" />
+      </div>
+      
       {/* Background decoration */}
-      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+      <div className="fixed inset-0 overflow-hidden pointer-events-none z-0">
         <motion.div
           className="absolute top-1/4 -left-20 w-96 h-96 bg-game-purple/10 rounded-full blur-3xl"
           animate={{ 
@@ -58,6 +71,16 @@ export const SetupScreen = ({ onStart }: SetupScreenProps) => {
         transition={{ duration: 0.5 }}
         className="w-full max-w-lg space-y-8 relative z-10"
       >
+        {/* Back Button */}
+        <motion.button
+          onClick={() => navigate(isAuthenticated ? '/dashboard' : '/')}
+          className="flex items-center gap-2 text-game-gold hover:text-game-gold-light transition-colors"
+          whileHover={{ x: -5 }}
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span>Voltar</span>
+        </motion.button>
+
         {/* Logo */}
         <motion.div 
           className="text-center space-y-4"
@@ -80,7 +103,8 @@ export const SetupScreen = ({ onStart }: SetupScreenProps) => {
             </motion.div>
           </div>
           <motion.h1 
-            className="text-5xl font-bold text-game-gold tracking-wider"
+            className="text-6xl font-bold text-game-gold tracking-wider"
+            style={{ fontFamily: "'Uncial Antiqua', cursive" }}
             animate={{ 
               textShadow: [
                 "0 0 20px rgba(212,175,55,0.3)",
@@ -90,7 +114,7 @@ export const SetupScreen = ({ onStart }: SetupScreenProps) => {
             }}
             transition={{ duration: 2, repeat: Infinity }}
           >
-            GIGIO'S MINIGAME
+            Gigio's Coup
           </motion.h1>
           <p className="text-muted-foreground text-lg">
             Um jogo de blefe, intriga e traição

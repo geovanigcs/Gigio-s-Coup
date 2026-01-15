@@ -98,7 +98,20 @@ export const useGameState = () => {
         case 'income':
           newPlayers[playerIndex] = { ...currentPlayer, coins: currentPlayer.coins + 1 };
           newLog.push(`💰 ${currentPlayer.name} pegou 1 moeda (Renda)`);
-          return { ...prev, players: newPlayers, log: newLog };
+          
+          // Auto pass turn after income
+          let nextIndex = (prev.currentPlayerIndex + 1) % prev.players.length;
+          while (!prev.players[nextIndex].isAlive) {
+            nextIndex = (nextIndex + 1) % prev.players.length;
+          }
+          
+          return { 
+            ...prev, 
+            players: newPlayers, 
+            log: newLog,
+            currentPlayerIndex: nextIndex,
+            phase: 'action',
+          };
 
         case 'foreign_aid':
           newLog.push(`💰💰 ${currentPlayer.name} tentou pegar 2 moedas (Ajuda Externa)`);
@@ -246,10 +259,17 @@ export const useGameState = () => {
           };
       }
 
+      // Auto pass turn after action resolution
+      let nextIndex = (prev.currentPlayerIndex + 1) % prev.players.length;
+      while (!prev.players[nextIndex].isAlive) {
+        nextIndex = (nextIndex + 1) % prev.players.length;
+      }
+
       return {
         ...prev,
         players: newPlayers,
         log: newLog,
+        currentPlayerIndex: nextIndex,
         phase: 'action',
         currentAction: null,
         pendingBlock: null,
@@ -284,10 +304,17 @@ export const useGameState = () => {
         };
       }
 
+      // Auto pass turn after losing influence
+      let nextIndex = (prev.currentPlayerIndex + 1) % prev.players.length;
+      while (!newPlayers[nextIndex].isAlive) {
+        nextIndex = (nextIndex + 1) % newPlayers.length;
+      }
+
       return {
         ...prev,
         players: newPlayers,
         log: newLog,
+        currentPlayerIndex: nextIndex,
         phase: 'action',
         currentAction: null,
       };
@@ -383,9 +410,17 @@ export const useGameState = () => {
   const acceptBlock = useCallback(() => {
     setGameState(prev => {
       if (!prev) return prev;
+      
+      // Auto pass turn after accepting block
+      let nextIndex = (prev.currentPlayerIndex + 1) % prev.players.length;
+      while (!prev.players[nextIndex].isAlive) {
+        nextIndex = (nextIndex + 1) % prev.players.length;
+      }
+      
       return {
         ...prev,
         log: [...prev.log, '✅ Bloqueio aceito!'],
+        currentPlayerIndex: nextIndex,
         phase: 'action',
         currentAction: null,
         pendingBlock: null,
