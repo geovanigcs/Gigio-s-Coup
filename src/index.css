@@ -1,8 +1,10 @@
+@import url('https://fonts.googleapis.com/css2?family=MedievalSharp&family=Uncial+Antiqua&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* Gigio's Minigame - Dark Royal Theme */
+/* Gigio's Coup - Dark Medieval Theme */
 
 @layer base {
   :root {
