@@ -1,24 +1,47 @@
 import { Injectable } from '@nestjs/common';
-import { Resend } from 'resend';
+import * as nodemailer from 'nodemailer';
+import type { Transporter } from 'nodemailer';
 
 @Injectable()
 export class EmailService {
-  private resend: Resend;
+  private transporter: Transporter;
 
   constructor() {
-    const apiKey = process.env.RESEND_API_KEY;
+    const smtpHost = process.env.SMTP_HOST;
+    const smtpPort = parseInt(process.env.SMTP_PORT || '587');
+    const smtpUser = process.env.SMTP_USER;
+    const smtpPass = process.env.SMTP_PASS;
     
-    if (!apiKey) {
-      console.warn('⚠️ RESEND_API_KEY não configurada! Emails não serão enviados.');
+    console.log('📧 Configurando EmailService...');
+    console.log('   SMTP_HOST:', smtpHost);
+    console.log('   SMTP_PORT:', smtpPort);
+    console.log('   SMTP_USER:', smtpUser);
+    console.log('   SMTP_PASS:', smtpPass ? '***configurado***' : 'NÃO CONFIGURADO');
+    
+    if (!smtpHost || !smtpUser || !smtpPass) {
+      console.warn('⚠️ Configuração SMTP incompleta! Emails não serão enviados.');
+      console.warn('Configure: SMTP_HOST, SMTP_PORT, SMTP_USER, SMTP_PASS no .env');
     }
     
-    this.resend = new Resend(apiKey);
+    this.transporter = nodemailer.createTransport({
+      host: smtpHost,
+      port: smtpPort,
+      secure: smtpPort === 465,
+      auth: {
+        user: smtpUser,
+        pass: smtpPass,
+      },
+    });
+    
+    console.log('✅ Transporter SMTP criado com sucesso');
   }
 
   async sendPasswordResetEmail(email: string, resetUrl: string, username: string) {
-    const { data, error } = await this.resend.emails.send({
-      from: process.env.EMAIL_FROM || 'Gigio\'s Coup <onboarding@resend.dev>',
-      to: [email],
+    console.log('📨 Tentando enviar email para:', email);
+    
+    const mailOptions = {
+      from: process.env.EMAIL_FROM || `"Gigio's Coup" <${process.env.SMTP_USER}>`,
+      to: email,
       subject: 'Recuperação de Senha - Gigio\'s Coup',
       html: `
         <!DOCTYPE html>
@@ -124,13 +147,21 @@ export class EmailService {
             </div>
           </body>
         </html>
-        `,
-      });
+      `,
+    };
 
-      if (error) {
-        throw error;
-      }
-
-      return { success: true, messageId: data?.id };
+    try {
+      console.log('🔄 Enviando email via SMTP...');
+      const info = await this.transporter.sendMail(mailOptions);
+      console.log('✅ Email enviado com sucesso!');
+      console.log('   MessageId:', info.messageId);
+      console.log('   Response:', info.response);
+      return { success: true, messageId: info.messageId };
+    } catch (error) {
+      console.error('❌ ERRO ao enviar email:');
+      console.error('   Erro:', error.message);
+      console.error('   Stack:', error.stack);
+      throw error;
+    }
   }
 }
