@@ -1,0 +1,27 @@
+services:
+  # Backend NestJS com WebSockets
+  - type: web
+    name: gigio-coup-backend
+    env: node
+    buildCommand: bun install && bunx prisma generate && bunx prisma migrate deploy
+    startCommand: bun server/src/main.ts
+    envVars:
+      - key: NODE_ENV
+        value: production
+      - key: PORT
+        value: 3001
+      - key: DATABASE_URL
+        sync: false
+      - key: JWT_SECRET
+        sync: false
+      - key: FRONTEND_URL
+        value: https://gigio-coup.vercel.app
+      - key: SMTP_HOST
+        value: smtp.gmail.com
+      - key: SMTP_PORT
+        value: 587
+      - key: SMTP_USER
+        sync: false
+      - key: SMTP_PASS
+        sync: false
+    healthCheckPath: /api/auth/profile
