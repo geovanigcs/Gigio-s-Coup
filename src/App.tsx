@@ -8,6 +8,8 @@ import { ProtectedRoute } from "@/components/ProtectedRoute";
 import Home from "./pages/Home";
 import Dashboard from "./pages/Dashboard";
 import GameOffline from "./pages/GameOffline";
+import GameOnline from "./pages/GameOnline";
+import GameLobby from "./pages/GameLobby";
 import ForgotPassword from "./pages/ForgotPassword";
 import ResetPassword from "./pages/ResetPassword";
 import NotFound from "./pages/NotFound";
@@ -31,6 +33,8 @@ const App = () => (
               </ProtectedRoute>
             } />
             <Route path="/game/offline" element={<GameOffline />} />
+            <Route path="/game/online" element={<GameOnline />} />
+            <Route path="/game/lobby" element={<GameLobby />} />
             <Route path="*" element={<NotFound />} />
           </Routes>
         </BrowserRouter>

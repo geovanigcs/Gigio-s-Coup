@@ -20,8 +20,8 @@ const Dashboard = () => {
       title: 'Jogar Online',
       description: 'Encontre adversários e entre em partidas online',
       color: 'from-blue-500 to-cyan-500',
-      path: '/game/online',
-      available: false,
+      path: '/game/lobby',
+      available: true,
     },
     {
       icon: Gamepad2,

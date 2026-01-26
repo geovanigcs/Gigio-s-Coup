@@ -406,7 +406,16 @@ const Home = () => {
             )}
 
             {/* Button to Offline Mode */}
-            <div className="pt-4 border-t border-game-gold/20">
+            <div className="pt-4 border-t border-game-gold/20 space-y-3">
+              <Button
+                type="button"
+                onClick={() => navigate('/game/lobby')}
+                className="w-full bg-game-gold text-game-dark hover:bg-game-gold/90"
+              >
+                <span className="mr-2">🌐</span>
+                Jogar Online
+              </Button>
+              
               <Button
                 type="button"
                 onClick={() => navigate('/game/offline')}

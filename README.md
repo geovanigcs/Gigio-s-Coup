@@ -190,7 +190,7 @@ bun run dev
 ## 🎯 Estrutura do Projeto
 
 ```
-courtly-influence-clash/
+Gigio's Coup-clash/
 ├── src/                      # Frontend React
 │   ├── components/          # Componentes reutilizáveis
 │   │   ├── game/           # Componentes específicos do jogo
@@ -217,12 +217,33 @@ courtly-influence-clash/
 - [x] Sistema de autenticação completo
 - [x] Jogo offline funcional
 - [x] Recuperação de senha via email
+- [x] Modo online multiplayer (WebSocket)
+- [x] Sistema de IA para bots
 - [ ] Sistema de amigos
 - [ ] Histórico de partidas
-- [ ] Modo online multiplayer (WebSocket)
 - [ ] Página de instruções interativa
 - [ ] Sistema de ranking
 - [ ] Achievements e conquistas
+
+## 🚀 Deploy em Produção
+
+### Frontend (Vercel) - ✅ JÁ DEPLOYADO
+- URL: https://gigio-coup.vercel.app
+
+### Backend (Render.com/Railway/Fly.io)
+
+Para manter o servidor online 24/7, consulte os guias de deploy:
+
+- **📄 [DEPLOY-QUICK.md](./DEPLOY-QUICK.md)** - Guia rápido para Render.com (GRÁTIS)
+- **📚 [DEPLOY.md](./DEPLOY.md)** - Guia completo com múltiplas opções
+
+**Resumo rápido:**
+1. Crie conta no [Render.com](https://render.com)
+2. New → Web Service → Conecte este repo
+3. Configure variáveis de ambiente
+4. Deploy automático!
+
+Detalhes completos em [DEPLOY-QUICK.md](./DEPLOY-QUICK.md)
 
 ## 🤝 Contribuição
 
